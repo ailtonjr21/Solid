@@ -1,27 +1,31 @@
 // LSP — versão organizada
-// Tonhão não é um tipo de Atendente. Cada um cumpre seu próprio papel.
+// Tonhão é cozinheiro, não uma especialização de atendente.
+// Cada personagem implementa o contrato que realmente consegue cumprir.
 
-interface FuncionarioDoBoteco {
-    void trabalhar();
+interface Atendente {
+    void anotarPedido();
 }
 
-class JuninDesenrola implements FuncionarioDoBoteco {
-    public void trabalhar() {
-        System.out.println("Junin anota o pedido.");
+interface Cozinheiro {
+    void prepararPedido();
+}
+
+class JuninDesenrola implements Atendente {
+    public void anotarPedido() {
+        System.out.println("Junin anotou o pedido.");
     }
 }
 
-public class TonhaoDaChapaCorreto implements FuncionarioDoBoteco {
-    public void trabalhar() {
-        System.out.println("Tonhão prepara o pedido.");
-    }
-
-    static void iniciarExpediente(FuncionarioDoBoteco funcionario) {
-        funcionario.trabalhar();
+public class TonhaoDaChapaCorreto implements Cozinheiro {
+    public void prepararPedido() {
+        System.out.println("Tonhão preparou o pedido.");
     }
 
     public static void main(String[] args) {
-        iniciarExpediente(new JuninDesenrola());
-        iniciarExpediente(new TonhaoDaChapaCorreto());
+        Atendente atendente = new JuninDesenrola();
+        Cozinheiro cozinheiro = new TonhaoDaChapaCorreto();
+
+        atendente.anotarPedido();
+        cozinheiro.prepararPedido();
     }
 }
