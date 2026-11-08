@@ -1,82 +1,127 @@
 # 🍻 Boteco Dilos — aprendendo SOLID sem complicação
 
-Bem-vindo ao Boteco Dilos! Aqui, cada personagem mostra, do jeito mais atrapalhado possível, como **não** organizar um código.
+Bem-vindo ao Boteco Dilos! Cada personagem mostra, de um jeito divertido, como um código pode dar problema quando um princípio SOLID é ignorado — e como organizar melhor a solução.
 
-A ideia é aprender os cinco princípios SOLID com situações de um boteco. As histórias são analogias: SOLID é aplicado ao projeto de software, não à administração real de um bar.
+Os exemplos são curtos, independentes e usam Java puro, sem frameworks ou banco de dados.
 
-## Os cinco personagens
+## Organização do projeto
 
-| Personagem | Princípio | A confusão |
+Cada princípio tem seu próprio diretório. Em cada diretório, há duas classes principais: uma com a situação problemática e outra com a versão organizada.
+
+```text
+Solid/
+├── README.md
+├── SRP/
+│   ├── Dilos.java
+│   └── DilosOrganizado.java
+├── OCP/
+│   ├── JuninDesenrola.java
+│   └── JuninDesenrolaFlexivel.java
+├── LSP/
+│   ├── TonhaoDaChapa.java
+│   └── TonhaoDaChapaCorreto.java
+├── ISP/
+│   ├── BetoVaptVupt.java
+│   └── BetoVaptVuptCorreto.java
+└── DIP/
+    ├── MarleneDoCaixa.java
+    └── MarleneDoCaixaFlexivel.java
+```
+
+## Os personagens
+
+| Princípio | Personagem | O que acontece |
 |---|---|---|
-| **Dilos**, o dono faz-tudo | SRP | Quer cuidar de tudo sozinho. |
-| **Junin Desenrola**, o garçom | OCP | Toda novidade obriga a mexer no código antigo. |
-| **Tonhão da Chapa**, o cozinheiro | LSP | É colocado no lugar do garçom, mas não consegue cumprir o combinado. |
-| **Beto Vapt-Vupt**, o entregador | ISP | É obrigado a implementar tarefas que não são dele. |
-| **Marlene do Caixa** | DIP | O caixa fica preso a uma forma concreta de pagamento. |
+| **SRP** — Responsabilidade Única | **Dilos**, o dono faz-tudo | Quer atender, cozinhar e fechar o caixa sozinho. |
+| **OCP** — Aberto/Fechado | **Junin Desenrola**, o garçom | Cada novo canal de atendimento exige alterar o código antigo. |
+| **LSP** — Substituição de Liskov | **Tonhão da Chapa**, o cozinheiro | É colocado no lugar do garçom, mas não consegue cumprir o contrato de atendimento. |
+| **ISP** — Segregação de Interfaces | **Beto Vapt-Vupt**, o entregador | É obrigado a implementar tarefas que não são dele. |
+| **DIP** — Inversão de Dependência | **Marlene do Caixa** | O caixa fica preso diretamente a uma forma concreta de pagamento. |
 
-## Como estudar
+## Como estudar cada princípio
 
-Leia cada exemplo nesta ordem:
+1. Abra primeiro a classe com o nome do personagem: ela representa o código problemático.
+2. Observe o que está errado e por que isso causa dificuldade.
+3. Abra a segunda classe, com sufixo `Organizado`, `Correto` ou `Flexivel`: ela mostra uma alternativa melhor.
+4. Compare os dois códigos.
 
-1. Veja a situação engraçada do boteco.
-2. Observe o código problemático.
-3. Entenda qual é o problema.
-4. Veja a versão melhorada.
+## 1. SRP — Single Responsibility Principle
 
-Os exemplos são independentes e usam Java puro, sem framework ou banco de dados.
+**Dilos, o dono faz-tudo:** abre o boteco, prepara os petiscos, atende as mesas e fecha o caixa. “Se eu não fizer, ninguém faz!”
 
-## 1. SRP — Princípio da Responsabilidade Única
+- Problemático: `SRP/Dilos.java`
+- Organizado: `SRP/DilosOrganizado.java`
 
-**Dilos, o dono faz-tudo:** abre o boteco, prepara os petiscos, atende as mesas e fecha o caixa. Se alguém pergunta por que faz tudo, ele responde: “Se eu não fizer, ninguém faz!”
+A classe problemática reúne atividades diferentes. Na versão organizada, atendimento, cozinha e caixa ficam em classes separadas.
 
-No código, a classe `BotecoSRP` acumula tarefas diferentes. A versão melhorada separa as responsabilidades.
+## 2. OCP — Open/Closed Principle
 
-Arquivo: `src/Srp.java`
+**Junin Desenrola:** cada vez que surge uma nova forma de atendimento, alguém precisa alterar o método cheio de `if/else`. “Chefe, tem que mexer naquele código de novo!”
 
-## 2. OCP — Princípio Aberto/Fechado
+- Problemático: `OCP/JuninDesenrola.java`
+- Organizado: `OCP/JuninDesenrolaFlexivel.java`
 
-**Junin Desenrola:** cada vez que o boteco inventa uma nova forma de atendimento, alguém precisa alterar o método cheio de `if/else`. “Chefe, tem que mexer naquele código de novo!”
+A versão organizada permite acrescentar novas formas de atendimento por meio de novas implementações da interface `FormaDeAtendimento`, sem modificar o código que inicia o atendimento.
 
-A ideia é permitir extensão sem precisar modificar a lógica que já funciona. A versão melhorada usa uma abstração para cada tipo de atendimento.
+## 3. LSP — Liskov Substitution Principle
 
-Arquivo: `src/Ocp.java`
+**Tonhão da Chapa:** alguém decide colocá-lo no lugar do garçom. Quando pedem para anotar um pedido, ele responde: “Eu sou cozinheiro, não sou garçom!”
 
-## 3. LSP — Princípio da Substituição de Liskov
+- Problemático: `LSP/TonhaoDaChapa.java`
+- Organizado: `LSP/TonhaoDaChapaCorreto.java`
 
-**Tonhão da Chapa:** alguém decide colocá-lo no lugar do garçom. Só tem um detalhe: quando pedem para anotar um pedido, ele responde: “Eu sou cozinheiro, não sou garçom!”
+Uma subclasse deve poder substituir a classe-base sem quebrar o comportamento esperado. Na versão organizada, cozinheiro e garçom não são tratados como se fossem o mesmo tipo de funcionário.
 
-Uma subclasse deve poder substituir sua classe-base sem quebrar o comportamento esperado. Se um tipo não consegue cumprir o contrato, a hierarquia foi mal planejada.
+## 4. ISP — Interface Segregation Principle
 
-Arquivo: `src/Lsp.java`
+**Beto Vapt-Vupt:** foi contratado para entregar, mas Dilos exige que também saiba cozinhar e atender mesa. “Patrão, eu só fui contratado para entregar!”
 
-## 4. ISP — Princípio da Segregação de Interfaces
+- Problemático: `ISP/BetoVaptVupt.java`
+- Organizado: `ISP/BetoVaptVuptCorreto.java`
 
-**Beto Vapt-Vupt:** foi contratado para entregar, mas Dilos exige que também saiba cozinhar, atender mesa e operar o caixa. “Patrão, eu só fui contratado para entregar!”
+A versão organizada usa uma interface específica para o entregador, sem obrigá-lo a implementar métodos que não utiliza.
 
-Em vez de uma interface enorme que obriga todos a implementar tudo, use interfaces menores e específicas.
+## 5. DIP — Dependency Inversion Principle
 
-Arquivo: `src/Isp.java`
+**Marlene do Caixa:** o caixa foi programado para aceitar somente Pix. “Aqui só recebe Pix porque foi assim que programaram!”
 
-## 5. DIP — Princípio da Inversão de Dependência
+- Problemático: `DIP/MarleneDoCaixa.java`
+- Organizado: `DIP/MarleneDoCaixaFlexivel.java`
 
-**Marlene do Caixa:** o caixa foi programado para aceitar somente Pix. Quando alguém pergunta se pode pagar em dinheiro ou cartão, ela responde: “Aqui só recebe Pix porque foi assim que programaram!”
-
-O módulo de alto nível (o caixa) não deve depender diretamente de uma implementação concreta. Ele deve depender de uma abstração, como `FormaDePagamento`.
-
-Arquivo: `src/Dip.java`
+O caixa passa a depender da abstração `FormaDePagamento`, e não diretamente da classe concreta `PagamentoPix`. Assim, pode receber diferentes formas de pagamento.
 
 ## Executar os exemplos
 
-É necessário ter o JDK instalado. Na pasta do projeto, execute:
+É necessário ter o JDK instalado. Na pasta raiz do projeto, compile cada diretório separadamente:
 
 ```bash
-javac src/*.java
-java -cp src Srp
-java -cp src Ocp
-java -cp src Lsp
-java -cp src Isp
-java -cp src Dip
+javac SRP/*.java
+javac OCP/*.java
+javac LSP/*.java
+javac ISP/*.java
+javac DIP/*.java
 ```
+
+Depois, execute as classes:
+
+```bash
+java -cp SRP Dilos
+java -cp SRP DilosOrganizado
+
+java -cp OCP JuninDesenrola
+java -cp OCP JuninDesenrolaFlexivel
+
+java -cp LSP TonhaoDaChapa
+java -cp LSP TonhaoDaChapaCorreto
+
+java -cp ISP BetoVaptVupt
+java -cp ISP BetoVaptVuptCorreto
+
+java -cp DIP MarleneDoCaixa
+java -cp DIP MarleneDoCaixaFlexivel
+```
+
+> **Observação:** o exemplo problemático de LSP lança uma exceção de propósito. Ela representa a quebra do comportamento esperado quando Tonhão é usado como se fosse um atendente.
 
 ## Resumo para a prova
 
